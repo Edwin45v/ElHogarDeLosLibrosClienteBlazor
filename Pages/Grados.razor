@@ -1,0 +1,67 @@
+﻿@page "/grados"
+@using Models
+@using Services
+@inject IGradoService GradoService
+
+<MudText Typo="Typo.h3">Grados de la Escuela</MudText>
+
+<MudGrid>
+    @foreach (var item in deptos)
+    {
+        string grado = "";
+        <MudItem xs="12" sm="10" md="6" lg="4">
+            <MudCard>
+                <MudCardHeader Class="blue darken-1">
+                    <CardHeaderContent>
+                        <MudText Typo="Typo.h6">@item.Nombre</MudText>
+                    </CardHeaderContent>
+                </MudCardHeader>
+                <MudCardContent>
+                    @switch (item.Id)
+                    {
+                        case 1:
+                            grado = "Primero";
+                            break;
+                        case 2:
+                            grado = "Segundo";
+                            break;
+                        case 3:
+                            grado = "Tercero";
+                            break;
+                        case 4:
+                            grado = "Cuarto";
+                            break;
+                        case 5:
+                            grado = "Quinto";
+                            break;
+                        case 6:
+                            grado = "Sexto";
+                            break;
+                        case 7:
+                            grado = "Septimo";
+                            break;
+                        case 8:
+                            grado = "Octavo";
+                            break;
+                        case 9:
+                            grado = "Noveno";
+                            break;
+                    }
+                    <MudText Typo="Typo.body2">Grado: @grado</MudText>
+
+                </MudCardContent>
+                <MudCardActions>
+                    <MudButton Variant="Variant.Text" Color="Color.Primary">Ver grados</MudButton>
+                </MudCardActions>
+            </MudCard>
+        </MudItem>
+    }
+</MudGrid>
+
+@code {
+    IEnumerable<Grado> deptos = new List<Grado>();
+    protected override async Task OnInitializedAsync()
+    {
+        deptos = await GradoService.GetAll();
+    }
+}

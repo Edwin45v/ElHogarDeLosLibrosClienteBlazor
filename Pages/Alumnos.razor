@@ -1,0 +1,47 @@
+﻿@page "/alumnos"
+@using Models
+@using Services
+@inject IAlumnoService AlumnoService
+
+<MudText Typo="Typo.h4">Alumnos</MudText>
+
+@if (alumnos == null)
+{
+    <p>Cargando...</p>
+}
+else
+{
+    <MudGrid>
+        @foreach (var item in alumnos)
+        {
+            <MudItem xs="12" sm="10" md="6" lg="4">
+                <MudCard>
+                    <MudCardHeader Class="red-1">
+                        <CardHeaderContent>
+                            <MudText Typo="Typo.h6">@item.Nombre</MudText>
+                        </CardHeaderContent>
+                    </MudCardHeader>
+                    <MudCardContent>
+                        <MudText Typo="Typo.body2">@item.Apellido</MudText>
+                    </MudCardContent>
+                    <MudCardContent>
+                        <MudText Typo="Typo.body2">@item.Imagen</MudText>
+                    </MudCardContent>
+                    <MudCardActions>
+                        <MudButton Link="@($"/detalles/{item.Id}")" Variant="Variant.Outlined" Color="Color.Success">Detalles</MudButton>
+                    </MudCardActions>
+                </MudCard>
+
+            </MudItem>
+        }
+    </MudGrid>
+}
+
+@code {
+    IEnumerable<Alumno> alumnos = new List<Alumno>();
+
+    protected override async Task OnInitializedAsync()
+    {
+        alumnos = await AlumnoService.GetAll();
+    }
+}
